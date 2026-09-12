@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - PandaSave 🐼</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <span class="panda-emoji">🐼</span>
+                <h2>PandaSave</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" onclick="switchTab('overview')">📊 Overview</a>
+                <a href="#" class="nav-item" onclick="switchTab('tracker')">💰 Track Money</a>
+                <a href="#" class="nav-item" onclick="switchTab('calculator')">🧮 Calculator</a>
+                <a href="#" class="nav-item" onclick="switchTab('reports')">📈 Reports</a>
+                <a href="#" class="nav-item" onclick="switchTab('goals')">🎯 Goals</a>
+                <a href="#" class="nav-item" onclick="switchTab('settings')">⚙️ Settings</a>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="btn btn-secondary" onclick="logout()">Logout</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="dashboard-content">
+            <!-- Header -->
+            <header class="dashboard-header">
+                <div class="header-left">
+                    <h1 id="userGreeting">Welcome, User! 🐼</h1>
+                </div>
+                <div class="header-right">
+                    <span class="current-date" id="currentDate"></span>
+                </div>
+            </header>
+
+            <!-- Overview Tab -->
+            <section id="overview" class="tab-content active">
+                <div class="overview-grid">
+                    <!-- Summary Cards -->
+                    <div class="summary-cards">
+                        <div class="card card-income glow-card">
+                            <h3>Income</h3>
+                            <p class="amount" id="totalIncome">$0.00</p>
+                            <span class="trend">↑ This Week</span>
+                        </div>
+                        <div class="card card-expense glow-card">
+                            <h3>Expenses</h3>
+                            <p class="amount" id="totalExpense">$0.00</p>
+                            <span class="trend">↓ This Week</span>
+                        </div>
+                        <div class="card card-savings glow-card">
+                            <h3>Savings</h3>
+                            <p class="amount" id="totalSavings">$0.00</p>
+                            <span class="trend">↑ Target</span>
+                        </div>
+                        <div class="card card-balance glow-card">
+                            <h3>Balance</h3>
+                            <p class="amount" id="totalBalance">$0.00</p>
+                            <span class="trend">💰 Current</span>
+                        </div>
+                    </div>
+
+                    <!-- Charts Section -->
+                    <div class="charts-section">
+                        <div class="chart-container">
+                            <h3>Spending Distribution</h3>
+                            <canvas id="spendingChart"></canvas>
+                        </div>
+                        <div class="chart-container">
+                            <h3>Income vs Expenses</h3>
+                            <canvas id="incomeExpenseChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Recent Transactions -->
+                    <div class="recent-transactions">
+                        <h3>Recent Transactions</h3>
+                        <div id="transactionsList" class="transactions-list">
+                            <p class="empty-message">No transactions yet. Add one to get started!</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Track Money Tab -->
+            <section id="tracker" class="tab-content">
+                <div class="tracker-container">
+                    <h2>Add Transaction</h2>
+                    <form id="transactionForm" class="transaction-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="trans-type">Type</label>
+                                <select id="trans-type" required>
+                                    <option value="">Select Type</option>
+                                    <option value="income">Income</option>
+                                    <option value="expense">Expense</option>
+                                    <option value="savings">Savings</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="trans-category">Category</label>
+                                <select id="trans-category" required>
+                                    <option value="">Select Category</option>
+                                    <option value="salary">Salary</option>
+                                    <option value="food">Food</option>
+                                    <option value="transport">Transport</option>
+                                    <option value="utilities">Utilities</option>
+                                    <option value="entertainment">Entertainment</option>
+                                    <option value="health">Health</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="trans-amount">Amount ($)</label>
+                                <input type="number" id="trans-amount" placeholder="0.00" step="0.01" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="trans-date">Date</label>
+                                <input type="date" id="trans-date" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="trans-description">Description</label>
+                            <input type="text" id="trans-description" placeholder="Add a note...">
+                        </div>
+                        <button type="submit" class="btn btn-primary glow-button">Add Transaction</button>
+                    </form>
+
+                    <!-- Transactions List -->
+                    <div class="transactions-section">
+                        <h2>All Transactions</h2>
+                        <div id="allTransactions" class="all-transactions">
+                            <p class="empty-message">No transactions yet.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Calculator Tab -->
+            <section id="calculator" class="tab-content">
+                <div class="calculator-container">
+                    <h2>Financial Calculator</h2>
+                    <div class="calculator-grid">
+                        <!-- Expense Calculator -->
+                        <div class="calc-card">
+                            <h3>💸 Expense Calculator</h3>
+                            <div class="calc-form">
+                                <div class="form-group">
+                                    <label for="expense-items">Items (comma-separated)</label>
+                                    <input type="text" id="expense-items" placeholder="Item1: 50, Item2: 30">
+                                </div>
+                                <button class="btn btn-primary" onclick="calculateExpenses()">Calculate</button>
+                                <div class="calc-result">
+                                    <p>Total: <span id="expenseResult">$0.00</span></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Savings Goal Calculator -->
+                        <div class="calc-card">
+                            <h3>🎯 Savings Goal</h3>
+                            <div class="calc-form">
+                                <div class="form-group">
+                                    <label for="goal-amount">Goal Amount ($)</label>
+                                    <input type="number" id="goal-amount" placeholder="5000" step="0.01">
+                                </div>
+                                <div class="form-group">
+                                    <label for="goal-months">Months to Save</label>
+                                    <input type="number" id="goal-months" placeholder="12" min="1">
+                                </div>
+                                <button class="btn btn-primary" onclick="calculateSavingsGoal()">Calculate</button>
+                                <div class="calc-result">
+                                    <p>Monthly: <span id="savingResult">$0.00</span></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Budget Calculator -->
+                        <div class="calc-card">
+                            <h3>📊 Budget Breakdown</h3>
+                            <div class="calc-form">
+                                <div class="form-group">
+                                    <label for="income-amount">Monthly Income ($)</label>
+                                    <input type="number" id="income-amount" placeholder="5000" step="0.01">
+                                </div>
+                                <button class="btn btn-primary" onclick="calculateBudget()">Generate Budget</button>
+                                <div class="calc-result">
+                                    <p>Housing (30%): <span id="budgetHousing">$0.00</span></p>
+                                    <p>Food (20%): <span id="budgetFood">$0.00</span></p>
+                                    <p>Transport (10%): <span id="budgetTransport">$0.00</span></p>
+                                    <p>Savings (15%): <span id="budgetSavings">$0.00</span></p>
+                                    <p>Other (25%): <span id="budgetOther">$0.00</span></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Compound Interest -->
+                        <div class="calc-card">
+                            <h3>💹 Compound Interest</h3>
+                            <div class="calc-form">
+                                <div class="form-group">
+                                    <label for="principal">Initial Amount ($)</label>
+                                    <input type="number" id="principal" placeholder="1000" step="0.01">
+                                </div>
+                                <div class="form-group">
+                                    <label for="rate">Annual Rate (%)</label>
+                                    <input type="number" id="rate" placeholder="5" step="0.01">
+                                </div>
+                                <div class="form-group">
+                                    <label for="years">Years</label>
+                                    <input type="number" id="years" placeholder="10" min="1">
+                                </div>
+                                <button class="btn btn-primary" onclick="calculateCompoundInterest()">Calculate</button>
+                                <div class="calc-result">
+                                    <p>Final Amount: <span id="interestResult">$0.00</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Reports Tab -->
+            <section id="reports" class="tab-content">
+                <div class="reports-container">
+                    <h2>Weekly Reports</h2>
+                    <div class="report-card">
+                        <h3>This Week's Summary</h3>
+                        <div class="report-stats">
+                            <div class="stat">
+                                <label>Total Income</label>
+                                <p id="weekIncome">$0.00</p>
+                            </div>
+                            <div class="stat">
+                                <label>Total Expenses</label>
+                                <p id="weekExpense">$0.00</p>
+                            </div>
+                            <div class="stat">
+                                <label>Net Savings</label>
+                                <p id="weekSavings">$0.00</p>
+                            </div>
+                            <div class="stat">
+                                <label>Savings Rate</label>
+                                <p id="savingsRate">0%</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="report-card">
+                        <h3>Category Breakdown</h3>
+                        <canvas id="categoryChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Goals Tab -->
+            <section id="goals" class="tab-content">
+                <div class="goals-container">
+                    <h2>Savings Goals</h2>
+                    <form id="goalForm" class="goal-form">
+                        <div class="form-group">
+                            <label for="goal-name">Goal Name</label>
+                            <input type="text" id="goal-name" placeholder="e.g., Vacation, Car" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="goal-target">Target Amount ($)</label>
+                                <input type="number" id="goal-target" placeholder="0.00" step="0.01" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="goal-deadline">Deadline</label>
+                                <input type="date" id="goal-deadline" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary glow-button">Add Goal</button>
+                    </form>
+
+                    <div id="goalsList" class="goals-list">
+                        <p class="empty-message">No goals yet. Create one to get started!</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings Tab -->
+            <section id="settings" class="tab-content">
+                <div class="settings-container">
+                    <h2>Settings</h2>
+                    <div class="settings-group">
+                        <h3>Account Settings</h3>
+                        <form id="settingsForm">
+                            <div class="form-group">
+                                <label for="settings-name">Full Name</label>
+                                <input type="text" id="settings-name" placeholder="Your name">
+                            </div>
+                            <div class="form-group">
+                                <label for="settings-email">Email</label>
+                                <input type="email" id="settings-email" placeholder="your@email.com">
+                            </div>
+                            <div class="form-group checkbox">
+                                <input type="checkbox" id="settings-newsletter">
+                                <label for="settings-newsletter">Subscribe to newsletter</label>
+                            </div>
+                            <div class="form-group checkbox">
+                                <input type="checkbox" id="settings-notifications" checked>
+                                <label for="settings-notifications">Enable notifications</label>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save Settings</button>
+                        </form>
+                    </div>
+                    <div class="settings-group">
+                        <h3>About PandaSave</h3>
+                        <p>Version: 1.0.0</p>
+                        <p>🐼 Smart money tracking made easy</p>
+                        <button class="btn btn-secondary" onclick="exportData()">Export My Data</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="js/dashboard.js"></script>
+    <script src="js/calculator.js"></script>
+</body>
+</html>

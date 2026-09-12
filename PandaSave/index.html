@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PandaSave - Smart Money Tracker 🐼</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="auth-container">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="navbar-brand">
+                <span class="panda-emoji">🐼</span>
+                <h1>PandaSave</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="auth-content">
+            <!-- Welcome Section -->
+            <div class="welcome-section">
+                <div class="welcome-text">
+                    <h2>Welcome to PandaSave 🐼</h2>
+                    <p>Your Smart Money Tracker & Savings Companion</p>
+                    <p class="tagline">Save smarter, not harder</p>
+                </div>
+            </div>
+
+            <!-- Auth Forms Container -->
+            <div class="forms-wrapper">
+                <!-- Sign Up Form -->
+                <div class="form-container signup-form active">
+                    <h3>Create Account</h3>
+                    <form id="signupForm">
+                        <div class="form-group">
+                            <label for="signup-name">Full Name</label>
+                            <input type="text" id="signup-name" placeholder="Enter your full name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signup-email">Email Address</label>
+                            <input type="email" id="signup-email" placeholder="your@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signup-password">Password</label>
+                            <input type="password" id="signup-password" placeholder="Min. 6 characters" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signup-confirm">Confirm Password</label>
+                            <input type="password" id="signup-confirm" placeholder="Confirm password" required>
+                        </div>
+                        <div class="form-group checkbox">
+                            <input type="checkbox" id="newsletter" checked>
+                            <label for="newsletter">Subscribe to our newsletter</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary glow-button">Sign Up</button>
+                    </form>
+                    <p class="auth-switch">Already have an account? <a href="#" onclick="toggleForms()">Sign In</a></p>
+                </div>
+
+                <!-- Sign In Form -->
+                <div class="form-container signin-form">
+                    <h3>Welcome Back</h3>
+                    <form id="signinForm">
+                        <div class="form-group">
+                            <label for="signin-email">Email Address</label>
+                            <input type="email" id="signin-email" placeholder="your@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signin-password">Password</label>
+                            <input type="password" id="signin-password" placeholder="Enter password" required>
+                        </div>
+                        <div class="form-group checkbox">
+                            <input type="checkbox" id="remember">
+                            <label for="remember">Remember me</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary glow-button">Sign In</button>
+                    </form>
+                    <p class="auth-switch">Don't have an account? <a href="#" onclick="toggleForms()">Sign Up</a></p>
+                </div>
+            </div>
+
+            <!-- Newsletter Section -->
+            <div class="newsletter-section">
+                <div class="newsletter-content">
+                    <h4>📧 Stay Updated</h4>
+                    <p>Get weekly money-saving tips and exclusive features!</p>
+                    <form id="newsletterForm" class="newsletter-form">
+                        <input type="email" id="newsletter-email" placeholder="Enter your email" required>
+                        <button type="submit" class="btn btn-secondary glow-button">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Preview -->
+        <section id="features" class="features-section">
+            <h2>Why Choose PandaSave? 🐼</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <span class="feature-icon">💰</span>
+                    <h4>Track Income & Expenses</h4>
+                    <p>Monitor every dollar coming in and going out with ease</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">📊</span>
+                    <h4>Visual Pie Charts</h4>
+                    <p>See your spending patterns at a glance with beautiful charts</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🧮</span>
+                    <h4>Built-in Calculator</h4>
+                    <p>Calculate expenses and savings targets instantly</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">📈</span>
+                    <h4>Weekly Reports</h4>
+                    <p>Get comprehensive summaries every week</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🎯</span>
+                    <h4>Savings Goals</h4>
+                    <p>Set and track your financial goals easily</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🔐</span>
+                    <h4>Secure & Private</h4>
+                    <p>Your financial data is always safe and encrypted</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2024 PandaSave 🐼 - Smart Money Tracking. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="js/auth.js"></script>
+</body>
+</html>
